@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Surpresa para Maria Loyse</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="bg-purple-900 text-white flex items-center justify-center min-h-screen">
+  <div id="app" class="w-full max-w-xl p-6 text-center"></div>
+
+  <script>
+    const app = document.getElementById("app");
+    let step = 0;
+
+    function render() {
+      app.innerHTML = "";
+      if (step === 0) {
+        app.innerHTML = `
+          <h1 class="text-2xl mb-6">Oi Maria Loyse 💜</h1>
+          <p class="mb-6">Preparei algo especial para você...</p>
+          <button onclick="next()" class="bg-white text-purple-900 px-4 py-2 rounded-2xl">Avançar</button>
+        `;
+      }
+      else if (step === 1) {
+        app.innerHTML = `
+          <h2 class="text-xl mb-4">Complete a poesia 💭</h2>
+          <p class="mb-4">"Ela é tão <input id='w1' class='text-purple-900 px-2'> 
+          que conhecê-la é como abrir um portal para um universo 
+          <input id='w2' class='text-purple-900 px-2'>, vasto, 
+          <input id='w3' class='text-purple-900 px-2'>, brilhante e cheio de possibilidades. <br><br>
+          Até em uma conversa <input id='w4' class='text-purple-900 px-2'>, 
+          é impossível não notar: sua <input id='w5' class='text-purple-900 px-2'> vai além da aparência, 
+          habita também sua alma. <br><br>
+          Talvez por isso minha mente insiste em voltar para ela, é simples, natural, 
+          <input id='w6' class='text-purple-900 px-2'> querer ela."</p>
+          <button onclick="checkPoem()" class="bg-white text-purple-900 px-4 py-2 rounded-2xl mt-4">Conferir</button>
+        `;
+      }
+      else if (step === 2) {
+        app.innerHTML = `
+          <h2 class="text-xl mb-4">Palavra Misteriosa ✨</h2>
+          <p class="mb-4">Digite a palavra mágica para continuar:</p>
+          <input id="magic" class="text-purple-900 px-2">
+          <button onclick="checkMagic()" class="bg-white text-purple-900 px-4 py-2 rounded-2xl mt-4">Enviar</button>
+        `;
+      }
+      else if (step === 3) {
+        app.innerHTML = `
+          <h2 class="text-xl mb-4">Perguntinha rápida 💡</h2>
+          <p class="mb-4">Há quanto tempo estamos conversando?</p>
+          <div class="flex flex-col gap-2">
+            <button onclick="checkAnswer(false)" class="bg-white text-purple-900 px-4 py-2 rounded-2xl">1 mês</button>
+            <button onclick="checkAnswer(true)" class="bg-white text-purple-900 px-4 py-2 rounded-2xl">2 meses</button>
+            <button onclick="checkAnswer(false)" class="bg-white text-purple-900 px-4 py-2 rounded-2xl">3 meses</button>
+            <button onclick="checkAnswer(false)" class="bg-white text-purple-900 px-4 py-2 rounded-2xl">6 meses</button>
+          </div>
+        `;
+      }
+      else if (step === 4) {
+        app.innerHTML = `
+          <h2 class="text-2xl mb-6">Surpresa final 🎶</h2>
+          <p class="mb-6">Fiz uma playlist com músicas que me lembram você 💜</p>
+          <div id="qrcode" class="flex justify-center"></div>
+        `;
+        new QRCode(document.getElementById("qrcode"), {
+          text: "https://www.deezer.com/br/playlist/14235711381?host=5076555962&utm_campaign=clipboard-generic&utm_source=user_sharing&utm_content=playlist-14235711381&deferredFl=1",
+          width: 180,
+          height: 180,
+          colorDark : "#4c1d95",
+          colorLight : "#ffffff"
+        });
+      }
+    }
+
+    function next() {
+      step++;
+      render();
+    }
+
+    function checkPoem() {
+      const answers = ["única","lindo","criativo","aleatória","beleza","inevitável"];
+      const inputs = [w1.value,w2.value,w3.value,w4.value,w5.value,w6.value];
+      if (inputs.map(i => i.toLowerCase().trim()).join() === answers.join()) {
+        step++;
+        render();
+      } else {
+        alert("Algumas palavras não estão corretas. Tente novamente!");
+      }
+    }
+
+    function checkMagic() {
+      const val = document.getElementById("magic").value.trim().toLowerCase();
+      if (val === "principessa") {
+        step++;
+        render();
+      } else {
+        alert("Ainda não é a palavra certa...");
+      }
+    }
+
+    function checkAnswer(correct) {
+      if (correct) {
+        step++;
+        render();
+      } else {
+        alert("Não é essa, tente de novo 😅");
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
